@@ -1,5 +1,4 @@
 
-
 def start():
     import psycopg2
     import pandas as pd
@@ -12,22 +11,11 @@ def start():
     sqltext = text
     return pd, engine, al, sqltext
 
-
-
-
-
-
 #tabla TIPO
-def type_Add():
+def type_Add(Id, Name, Descr, Img, Status):
     pd, en, al, txt = start()
 
     with en.connect() as connection:
-        Id = int(input("ingrese el ID del TIPO:"))
-        Name = str(input("ingrese el Nombre del TIPO:"))
-        Descr = str(input("ingrese la descripcion del TIPO:"))
-        Img = str(input("ingrese la imagen del TIPO:"))
-        Status = str(input("ingrese el status:"))
-
         query = f"select producto.type_agregar({Id},'{Name}','{Descr}','{Img}','{Status}')"
         result = connection.execute(txt(query))
         connection.commit()
