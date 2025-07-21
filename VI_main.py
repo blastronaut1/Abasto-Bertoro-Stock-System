@@ -51,7 +51,7 @@ class MyGui:
         self.deletemenu = tk.Menu(self.menubar, tearoff=0)
         self.deletemenu.add_command(label="BORRAR tipo de producto", command=self.delType)
         self.deletemenu.add_separator()
-        self.deletemenu.add_command(label="BORRAR proveedore", command=self.delProveer)
+        self.deletemenu.add_command(label="BORRAR proveedor", command=self.delProveer)
         self.deletemenu.add_separator()
         self.deletemenu.add_command(label="BORRAR precio del producto", command=self.delPrize)
         self.deletemenu.add_separator()
@@ -66,6 +66,10 @@ class MyGui:
 
 
         self.root.mainloop()
+
+
+
+
 
     #---------TIPO-------
     def addType(self):
@@ -118,47 +122,638 @@ class MyGui:
         self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitType(int(self.Id.get()),self.Name.get(),self.descr.get(),self.Img.get(),self.Status.get()))
         self.confirm.pack(padx=7, pady=20)
 
-    def modType():
-        pass
-    def listType():
-        pass
-    def delType():
-        pass
+    def modType(self):
+        #titulo
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Modificar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Modificar Datos:\n Tipo de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes modificar ciertos datos de\n la categoria de producto\n(ejemplo: comida, limpieza, papeleria, etc)\n que desees!", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+
+        #variables
+        self.idOptions = STOCKSYSTEM.type_IdName()
+        self.Id = tk.IntVar()
+        self.Name = tk.StringVar()
+        self.descr = tk.StringVar()
+        self.Img = tk.StringVar()
+        self.Status = tk.StringVar()
+
+        #data
+        self.idLabel = tk.Label(self.crudWindow, text="ID del tipo a cambiar\n(solo funcionara con tipos ya existentes)")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.nameLabel = tk.Label(self.crudWindow, text="nuevo Nombre del tipo")
+        self.nameLabel.pack()
+        self.nameEntry = tk.Entry(self.crudWindow, textvariable=self.Name)
+        self.nameEntry.pack(padx=7, pady=7)
+
+        self.descrLabel = tk.Label(self.crudWindow, text="nueva Descripcion del tipo a cambiar")
+        self.descrLabel.pack()
+        self.descrEntry = tk.Entry(self.crudWindow, textvariable=self.descr)
+        self.descrEntry.pack(padx=7, pady=7)
+
+        self.imgLabel = tk.Label(self.crudWindow, text="nueva Imagen del tipo a cambiar")
+        self.imgLabel.pack()
+        self.imgEntry = tk.Entry(self.crudWindow, textvariable=self.Img)
+        self.imgEntry.pack(padx=7, pady=7)
+
+
+        label1 = tk.Label(self.crudWindow, text="Es esta categoria/tipo en uso?")
+        label1.pack()
+        self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
+        self.statusLabel.pack()
+
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitType2(int(self.Id.get()),self.Name.get(),self.descr.get(),self.Img.get(),self.Status.get()))
+        self.confirm.pack(padx=7, pady=20)      
+
+    def listType(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("1000x600")
+        self.crudWindow.title("Lista de Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Lista de Datos:\n Tipo de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca se listan todas las categorias\n(ejemplo: comida, limpieza, papeleria, etc)\n presentes en sistema", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+        
+        self.list = STOCKSYSTEM.type_List()
+        self.Output = tk.Text(self.crudWindow, height = 75, width = 120, bg = "light cyan")
+        self.Output.pack()
+        self.Output.insert(tk.END, self.list)
+
+    def delType(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Eliminar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Eliminar Datos:\n Tipo de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes eliminar\n la categoria de producto\n(ejemplo: comida, limpieza, papeleria, etc)\n que desees!", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+        self.Id = tk.IntVar()
+
+        self.idLabel = tk.Label(self.crudWindow, text="ID del tipo a eliminar\n(ESTA ACCION ES PERMANENTE)")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable=self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.confirm = tk.Button(self.crudWindow,text="eliminar Informacion en la base de datos", font=('Arial', 15),command=lambda:self.commitType3(int(self.Id.get())))
+        self.confirm.pack(padx=7, pady=20)  
+
+
+
     #--------PROVEEDOR--------
-    def addProveer():
-        pass
-    def modProveer():
-        pass
-    def listProveer():
-        pass
-    def delProveer():
-        pass
+    def addProveer(self):
+         #titulo
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Añadir Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Añadir Datos:\n Proveedores de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes añadir un proveedor\n de uno de los productos que guardas en el sistema", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+
+        #variables
+        self.Id = tk.IntVar()
+        self.Name = tk.StringVar()
+        self.descr = tk.StringVar()
+        self.Dir = tk.StringVar()
+        self.Telf = tk.StringVar()
+        self.Status = tk.StringVar()
+
+        #data
+        self.idLabel = tk.Label(self.crudWindow, text="ID del Proveedor")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.nameLabel = tk.Label(self.crudWindow, text="Nombre del Proveedor")
+        self.nameLabel.pack()
+        self.nameEntry = tk.Entry(self.crudWindow, textvariable=self.Name)
+        self.nameEntry.pack(padx=7, pady=7)
+
+        self.descrLabel = tk.Label(self.crudWindow, text="Descripcion del Proveedor")
+        self.descrLabel.pack()
+        self.descrEntry = tk.Entry(self.crudWindow, textvariable=self.descr)
+        self.descrEntry.pack(padx=7, pady=7)
+
+        self.dirLabel = tk.Label(self.crudWindow, text="Direccion del proveedor")
+        self.dirLabel.pack()
+        self.dirEntry = tk.Entry(self.crudWindow, textvariable=self.Dir)
+        self.dirEntry.pack(padx=7, pady=7)
+
+        self.telLabel = tk.Label(self.crudWindow, text="Telefono del Proveedor")
+        self.telLabel.pack()
+        self.telEntry = tk.Entry(self.crudWindow, textvariable=self.Telf)
+        self.telEntry.pack(padx=7, pady=7)
+
+
+        label1 = tk.Label(self.crudWindow, text="Es este Proveedor en uso?")
+        label1.pack()
+        self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
+        self.statusLabel.pack()
+
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitProveer(int(self.Id.get()),self.Name.get(),self.descr.get(),self.Dir.get(),self.Telf.get(),self.Status.get()))
+        self.confirm.pack(padx=7, pady=20)
+
+    def modProveer(self):
+         #titulo
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Modificar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Modificar Datos:\n Proveedores de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes Modificar los datos un proveedor\n de uno de los productos que guardas en el sistema", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+
+        #variables
+        self.Id = tk.IntVar()
+        self.Name = tk.StringVar()
+        self.descr = tk.StringVar()
+        self.Dir = tk.StringVar()
+        self.Telf = tk.StringVar()
+        self.Status = tk.StringVar()
+
+        #data
+        self.idLabel = tk.Label(self.crudWindow, text="ID del Proveedor a proveedor")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.nameLabel = tk.Label(self.crudWindow, text="Nuevo Nombre del Proveedor")
+        self.nameLabel.pack()
+        self.nameEntry = tk.Entry(self.crudWindow, textvariable=self.Name)
+        self.nameEntry.pack(padx=7, pady=7)
+
+        self.descrLabel = tk.Label(self.crudWindow, text="Nueva Descripcion del Proveedor")
+        self.descrLabel.pack()
+        self.descrEntry = tk.Entry(self.crudWindow, textvariable=self.descr)
+        self.descrEntry.pack(padx=7, pady=7)
+
+        self.dirLabel = tk.Label(self.crudWindow, text="Nueva Direccion del proveedor")
+        self.dirLabel.pack()
+        self.dirEntry = tk.Entry(self.crudWindow, textvariable=self.Dir)
+        self.dirEntry.pack(padx=7, pady=7)
+
+        self.telLabel = tk.Label(self.crudWindow, text="Nueva Telefono del Proveedor")
+        self.telLabel.pack()
+        self.telEntry = tk.Entry(self.crudWindow, textvariable=self.Telf)
+        self.telEntry.pack(padx=7, pady=7)
+
+
+        label1 = tk.Label(self.crudWindow, text="Es este Proveedor en uso?")
+        label1.pack()
+        self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
+        self.statusLabel.pack()
+
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitProveer2(int(self.Id.get()),self.Name.get(),self.descr.get(),self.Dir.get(),self.Telf.get(),self.Status.get()))
+        self.confirm.pack(padx=7, pady=20)
+
+    def listProveer(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("800x600")
+        self.crudWindow.title("Lista de Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Lista de Datos:\n Proveedor de los producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca se listan todos los Proveedores\n presentes en sistema", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+        
+        self.list = STOCKSYSTEM.Proveer_List()
+        self.Output = tk.Text(self.crudWindow, height = 75, width = 75, bg = "light cyan")
+        self.Output.pack()
+        self.Output.insert(tk.END, self.list)
+
+    def delProveer(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Eliminar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Eliminar Datos:\n Proveedor de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes eliminar\n el proveedor que desees!", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+        self.Id = tk.IntVar()
+
+        self.idLabel = tk.Label(self.crudWindow, text="ID del Proveedor a eliminar\n(ESTA ACCION ES PERMANENTE)")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable=self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.confirm = tk.Button(self.crudWindow,text="eliminar Informacion en la base de datos", font=('Arial', 15),command=lambda:self.commitProveer3(int(self.Id.get())))
+        self.confirm.pack(padx=7, pady=20)  
+
+
+
+
+
+
+
     #---------PRECIO---------
-    def addPrize():
-        pass
-    def modPrize():
-        pass
-    def listPrize():
-        pass
-    def delPrize():
-        pass
+    def addPrize(self):
+         #titulo
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Añadir Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Añadir Datos:\n Precio de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes añadir un registro sobre los movimientos capitales\n acerca de un producto", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+
+        #variables
+        self.Id = tk.IntVar()
+        self.fk_itm = tk.IntVar()
+        self.fk_pro = tk.IntVar()
+        self.pri_in = tk.DoubleVar()
+        self.pri_out = tk.DoubleVar()
+        self.Status = tk.StringVar()
+
+        #data
+        self.idLabel = tk.Label(self.crudWindow, text="ID del registro del precio")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.fkitmLabel = tk.Label(self.crudWindow, text="a cual item le pertenece este registro?\n ingrese el Id")
+        self.fkitmLabel.pack()
+        self.fkitmEntry = tk.Entry(self.crudWindow, textvariable=self.fk_itm)
+        self.fkitmEntry.pack(padx=7, pady=7)
+
+        self.fkproLabel = tk.Label(self.crudWindow, text="a cual proveedor le pertenece este registro?\n ingrese el Id")
+        self.fkproLabel.pack()
+        self.fkproEntry = tk.Entry(self.crudWindow, textvariable=self.fk_pro)
+        self.fkproEntry.pack(padx=7, pady=7)
+
+        self.priinLabel = tk.Label(self.crudWindow, text="Ingrese el precio de compra del producto\n (cuanto te costo conseguirlo)")
+        self.priinLabel.pack()
+        self.priinEntry = tk.Entry(self.crudWindow, textvariable= self.pri_in)
+        self.priinEntry.pack(padx=7, pady=7)
+
+        label1 = tk.Label(self.crudWindow, text="Es este Registro de precio en uso?")
+        label1.pack()
+        self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
+        self.statusLabel.pack()
+
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitPrize(int(self.Id.get()),int(self.fk_itm.get()),int(self.fk_pro.get()),float(self.pri_in.get()),float(self.pri_out.get()),self.Status.get()))
+        self.confirm.pack(padx=7, pady=20)
+
+
+    def modPrize(self):
+        #titulo
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Modificar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Modificar Datos:\n Precio de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes modificar un registro sobre los movimientos capitales\n acerca de un producto", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+
+        #variables
+        self.Id = tk.IntVar()
+        self.fk_itm = tk.IntVar()
+        self.fk_pro = tk.IntVar()
+        self.pri_in = tk.DoubleVar()
+        self.pri_out = tk.DoubleVar()
+        self.Status = tk.StringVar()
+
+        #data
+        self.idLabel = tk.Label(self.crudWindow, text="ID del registro del precio a modificar")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.fkitmLabel = tk.Label(self.crudWindow, text="a cual item le pertenece este registro?\n ingrese el Id a cambiar")
+        self.fkitmLabel.pack()
+        self.fkitmEntry = tk.Entry(self.crudWindow, textvariable=self.fk_itm)
+        self.fkitmEntry.pack(padx=7, pady=7)
+
+        self.fkproLabel = tk.Label(self.crudWindow, text="a cual proveedor le pertenece este registro?\n ingrese el Id a cambiar")
+        self.fkproLabel.pack()
+        self.fkproEntry = tk.Entry(self.crudWindow, textvariable=self.fk_pro)
+        self.fkproEntry.pack(padx=7, pady=7)
+
+        self.priinLabel = tk.Label(self.crudWindow, text="Ingrese el nuevo precio de compra del producto\n (cuanto te costo conseguirlo)")
+        self.priinLabel.pack()
+        self.priinEntry = tk.Entry(self.crudWindow, textvariable= self.pri_in)
+        self.priinEntry.pack(padx=7, pady=7)
+
+        label1 = tk.Label(self.crudWindow, text="Es este Registro de precio en uso?")
+        label1.pack()
+        self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
+        self.statusLabel.pack()
+
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitPrize2(int(self.Id.get()),int(self.fk_itm.get()),int(self.fk_pro.get()),float(self.pri_in.get()),float(self.pri_out.get()),self.Status.get()))
+        self.confirm.pack(padx=7, pady=20)
+
+
+    def listPrize(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("800x600")
+        self.crudWindow.title("Lista de Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Lista de Datos:\n Precio de los producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca se listan todos los registros capitales\n presentes en sistema", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+        
+        self.list = STOCKSYSTEM.Price_List()
+        self.Output = tk.Text(self.crudWindow, height = 75, width = 75, bg = "light cyan")
+        self.Output.pack()
+        self.Output.insert(tk.END, self.list)
+
+    def delPrize(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Eliminar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Eliminar Datos:\n Precio de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes eliminar\n el registro capital que desees!", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+        self.Id = tk.IntVar()
+
+        self.idLabel = tk.Label(self.crudWindow, text="ID del registro capital a eliminar\n(ESTA ACCION ES PERMANENTE)")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable=self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.confirm = tk.Button(self.crudWindow,text="eliminar Informacion en la base de datos", font=('Arial', 15),command=lambda:self.commitPrize3(int(self.Id.get())))
+        self.confirm.pack(padx=7, pady=20) 
+
+
+
     #---------ITEM------
-    def addItem():
-        pass
-    def modItem():
-        pass
-    def listItem():
-        pass
-    def delItem():
-        pass
+    def addItem(self):
+        #titulo
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x800")
+        self.crudWindow.title("Añadir Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Añadir Datos:\n Productos/Items", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes añadir un Producto/Item al Stock", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+
+        #variables
+        self.Id = tk.IntVar()
+        self.Name = tk.StringVar()
+        self.descr = tk.StringVar()
+        self.Qnty = tk.IntVar()
+        self.Qnty_min = tk.IntVar()
+        self.fk_type = tk.IntVar()
+        self.fk_pro = tk.IntVar()
+        self.Status = tk.StringVar()
+
+        #data
+        self.idLabel = tk.Label(self.crudWindow, text="ID del Producto")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.nameLabel = tk.Label(self.crudWindow, text="Nombre del Producto")
+        self.nameLabel.pack()
+        self.nameEntry = tk.Entry(self.crudWindow, textvariable=self.Name)
+        self.nameEntry.pack(padx=7, pady=7)
+
+        self.descrLabel = tk.Label(self.crudWindow, text="Descripcion del Producto")
+        self.descrLabel.pack()
+        self.descrEntry = tk.Entry(self.crudWindow, textvariable=self.descr)
+        self.descrEntry.pack()
+
+        self.qntyLabel = tk.Label(self.crudWindow, text="cuanta cantidad de este\n producto se tiene actualmente?")
+        self.qntyLabel.pack()
+        self.qntyEntry = tk.Entry(self.crudWindow, textvariable=self.Qnty)
+        self.qntyEntry.pack(padx=7, pady=7)
+
+        self.qnty1Label = tk.Label(self.crudWindow, text="cual es la cantidad MINIMA de este\n producto se tiene actualmente?")
+        self.qnty1Label.pack()
+        self.qnty1Entry = tk.Entry(self.crudWindow, textvariable=self.Qnty_min)
+        self.qnty1Entry.pack(padx=7, pady=7)
+
+        self.fktypeLabel = tk.Label(self.crudWindow, text="que clase de producto es este?\n (Ingrese el Id de la categoria)")
+        self.fktypeLabel.pack()
+        self.fktypeEntry = tk.Entry(self.crudWindow, textvariable= self.fk_type)
+        self.fktypeEntry.pack(padx=7, pady=7)
+        
+        self.fkproLabel = tk.Label(self.crudWindow, text="quien proporciono este producto?\n (Ingrese el Id del proveedor)")
+        self.fkproLabel.pack()
+        self.fkproEntry = tk.Entry(self.crudWindow, textvariable= self.fk_pro)
+        self.fkproEntry.pack(padx=7, pady=7)
+
+        label1 = tk.Label(self.crudWindow, text="Esta este producto en uso?")
+        label1.pack()
+        self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
+        self.statusLabel.pack()
+
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitItem(int(self.Id.get()),self.Name.get(),self.descr.get(),int(self.Qnty.get()),int(self.Qnty_min.get()),int(self.fk_type.get()),int(self.fk_pro.get()),self.Status.get()))
+        self.confirm.pack(padx=7, pady=20)
+
+
+
+    def modItem(self):
+        # titulo
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x800")
+        self.crudWindow.title("Modificar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Modificar Datos:\n Productos/Items", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes Modificar la data\n de un Producto/Item en el Stock", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+
+        #variables
+        self.Id = tk.IntVar()
+        self.Name = tk.StringVar()
+        self.descr = tk.StringVar()
+        self.Qnty = tk.IntVar()
+        self.Qnty_min = tk.IntVar()
+        self.fk_type = tk.IntVar()
+        self.fk_pro = tk.IntVar()
+        self.Status = tk.StringVar()
+
+        #data
+        self.idLabel = tk.Label(self.crudWindow, text="ID del Producto a modificar")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.nameLabel = tk.Label(self.crudWindow, text="Nuevo Nombre del Producto")
+        self.nameLabel.pack()
+        self.nameEntry = tk.Entry(self.crudWindow, textvariable=self.Name)
+        self.nameEntry.pack(padx=7, pady=7)
+
+        self.descrLabel = tk.Label(self.crudWindow, text="Nueva Descripcion del Producto")
+        self.descrLabel.pack()
+        self.descrEntry = tk.Entry(self.crudWindow, textvariable=self.descr)
+        self.descrEntry.pack()
+
+        self.qntyLabel = tk.Label(self.crudWindow, text="cuanta cantidad de este\n producto se tiene actualmente?")
+        self.qntyLabel.pack()
+        self.qntyEntry = tk.Entry(self.crudWindow, textvariable=self.Qnty)
+        self.qntyEntry.pack(padx=7, pady=7)
+
+        self.qnty1Label = tk.Label(self.crudWindow, text="cual es la cantidad MINIMA de este\n producto se tiene actualmente?")
+        self.qnty1Label.pack()
+        self.qnty1Entry = tk.Entry(self.crudWindow, textvariable=self.Qnty_min)
+        self.qnty1Entry.pack(padx=7, pady=7)
+
+        self.fktypeLabel = tk.Label(self.crudWindow, text="que clase de producto es este?\n (Ingrese el Nuevo Id de la categoria)")
+        self.fktypeLabel.pack()
+        self.fktypeEntry = tk.Entry(self.crudWindow, textvariable= self.fk_type)
+        self.fktypeEntry.pack(padx=7, pady=7)
+        
+        self.fkproLabel = tk.Label(self.crudWindow, text="quien proporciono este producto?\n (Ingrese el Nuevo Id del proveedor)")
+        self.fkproLabel.pack()
+        self.fkproEntry = tk.Entry(self.crudWindow, textvariable= self.fk_pro)
+        self.fkproEntry.pack(padx=7, pady=7)
+
+        label1 = tk.Label(self.crudWindow, text="Esta este producto en uso?")
+        label1.pack()
+        self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
+        self.statusLabel.pack()
+
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitItem2(int(self.Id.get()),self.Name.get(),self.descr.get(),int(self.Qnty.get()),int(self.Qnty_min.get()),int(self.fk_type.get()),int(self.fk_pro.get()),self.Status.get()))
+        self.confirm.pack(padx=7, pady=20)
+
+    def listItem(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("1000x600")
+        self.crudWindow.title("Lista de Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Lista de Datos:\n producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca se listan todos los Productos\n presentes en sistema", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+        
+        self.list = STOCKSYSTEM.Item_List()
+        self.Output = tk.Text(self.crudWindow, height = 75, width = 120, bg = "light cyan")
+        self.Output.pack()
+        self.Output.insert(tk.END, self.list)
+ 
+    def delItem(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Eliminar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Eliminar Datos:\n ProductoS", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes eliminar\n el Producto que desees!", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+        self.Id = tk.IntVar()
+
+        self.idLabel = tk.Label(self.crudWindow, text="ID del Producto/Item a eliminar\n(ESTA ACCION ES PERMANENTE)")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable=self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.confirm = tk.Button(self.crudWindow,text="eliminar Informacion en la base de datos", font=('Arial', 15),command=lambda:self.commitItem3(int(self.Id.get())))
+        self.confirm.pack(padx=7, pady=20) 
+
     
     
+
+
+
+
+
+
+
+
+
+    #--------COMITEO COMITEO TETETEO
     def commitType(self,r1,r2,r3,r4,r5):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
         if (answer==True):
             STOCKSYSTEM.type_Add(r1, r2, r3, r4, r5)
             print("ocurrio")
 
+    def commitType2(self,r1,r2,r3,r4,r5):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
+        if (answer==True):
+            STOCKSYSTEM.type_Mod(r1, r2, r3, r4, r5)
+            print("ocurrio")
+
+    def commitType3(self,r1):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?\n Esta accion es permanente y muy delicada, proceder con cautela')
+        if (answer==True):
+            STOCKSYSTEM.type_Delete(r1)
+            print("ocurrio")
 
 
+    def commitProveer(self,r1,r2,r3,r4,r5,r6):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
+        if (answer==True):
+            STOCKSYSTEM.Proveer_Add(r1, r2, r3, r4, r5, r6)
+            print("ocurrio")
+
+    def commitProveer2(self,r1,r2,r3,r4,r5,r6):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
+        if (answer==True):
+            STOCKSYSTEM.Proveer_Mod(r1, r2, r3, r4, r5, r6)
+            print("ocurrio")
+
+    def commitProveer3(self,r1):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?\n Esta accion es permanente y muy delicada, proceder con cautela')
+        if (answer==True):
+            STOCKSYSTEM.Proveer_Delete(r1)
+            print("ocurrio")
+
+
+    def commitPrize(self,r1,r2,r3,r4,r5,r6):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
+        if (answer==True):
+            STOCKSYSTEM.Price_Add(r1, r2, r3, r4, r5, r6)
+            print("ocurrio")
+
+    def commitPrize2(self,r1,r2,r3,r4,r5,r6):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
+        if (answer==True):
+            STOCKSYSTEM.Price_Mod(r1, r2, r3, r4, r5, r6)
+            print("ocurrio")
+
+    def commitPrize3(self,r1):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?\n Esta accion es permanente y muy delicada, proceder con cautela')
+        if (answer==True):
+            STOCKSYSTEM.Price_Delete(r1)
+            print("ocurrio")
+
+
+
+    def commitItem(self,r1,r2,r3,r4,r5,r6,r7,r8):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
+        if (answer==True):
+            STOCKSYSTEM.Item_Add(r1, r2, r3, r4, r5, r6, r7, r8)
+            print("ocurrio")
+
+    def commitItem2(self,r1,r2,r3,r4,r5,r6,r7,r8):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
+        if (answer==True):
+            STOCKSYSTEM.Item_Mod(r1, r2, r3, r4, r5, r6,r7,r8)
+            print("ocurrio")
+
+    def commitItem3(self,r1):
+        answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?\n Esta accion es permanente y muy delicada, proceder con cautela')
+        if (answer==True):
+            STOCKSYSTEM.Item_Delete(r1)
+            print("ocurrio")
 MyGui()
