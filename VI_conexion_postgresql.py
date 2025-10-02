@@ -12,25 +12,20 @@ def start():
     return pd, engine, al, sqltext
 
 #tabla TIPO
-def type_Add(Id, Name, Descr, Img, Status):
+def type_Add(Name, Descr,Status):
     pd, en, al, txt = start()
 
     with en.connect() as connection:
-        query = f"select producto.type_agregar({Id},'{Name}','{Descr}','{Img}','{Status}')"
+        query = f"select producto.type_agregar2('{Name}','{Descr}','what','{Status}')"
         result = connection.execute(txt(query))
         connection.commit()
 
-def type_IdName():
-    pd, en, ps, txt = start()
-    query=f"select type_id,type_name from producto.type"
-    df_read_sql = pd.read_sql(query, en)
-    return df_read_sql
 
-def type_Mod(Id, Name, Descr, Img, Status):
+def type_Mod(Id, Name, Descr,Status):
     pd, en, al, txt = start()
 
     with en.connect() as connection:
-        query = f"select producto.type_modificar({Id},'{Name}','{Descr}','{Img}','{Status}')"
+        query = f"select producto.type_modificar({Id},'{Name}','{Descr}','what','{Status}')"
         result = connection.execute(txt(query))
         connection.commit()
 
@@ -51,13 +46,23 @@ def type_Delete(Id):
         connection.commit()
 
 
+def type_Search(Id):
+    pd, en, al, txt = start()
+
+    query=f"select producto.type_buscar({Id})"
+    df_read_sql = pd.read_sql(query, en)
+    print(df_read_sql)
+
+    return df_read_sql
+
+
 #tabla proveedor
-def Proveer_Add(Id, Name, Descr, Dir, Telf, Status):
+def Proveer_Add(Name, Descr, Dir, Telf, Status):
     pd, en, al, txt = start()
 
     with en.connect() as connection:
 
-        query = f"select producto.proveedor_agregar({Id},'{Name}','{Descr}', '{Dir}', '{Telf}','{Status}')"
+        query = f"select producto.proveedor_agregar2('{Name}','{Descr}', '{Dir}', '{Telf}','{Status}')"
         result = connection.execute(txt(query))
         connection.commit()
 
@@ -87,18 +92,26 @@ def Proveer_Delete(Id):
         result = connection.execute(txt(query))
         connection.commit()
 
+def Proveer_Search(Id):
+    pd, en, al, txt = start()
+
+    query=f"select producto.proveedor_buscar({Id})"
+    df_read_sql = pd.read_sql(query, en)
+    print(df_read_sql)
+
+    return df_read_sql
 
 
 
 
 
 #tabla precio
-def Price_Add(Id, fk_itm, fk_pro, pri_in, pri_out, Status):
+def Price_Add(fk_itm, fk_pro, pri_in, pri_out, Status):
     pd, en, al, txt = start()
 
     with en.connect() as connection:
 
-        query = f"select producto.precios_agregar({Id},{fk_itm},{fk_pro},{pri_in},{pri_out},'{Status}')"
+        query = f"select producto.precios_agregar2({fk_itm},{fk_pro},{pri_in},{pri_out},'{Status}')"
         result = connection.execute(txt(query))
         connection.commit()
 
@@ -126,19 +139,24 @@ def Price_Delete(Id):
         result = connection.execute(txt(query))
         connection.commit()
 
+def Price_Search(Id):
+    pd, en, al, txt = start()
 
+    query=f"select producto.precios_buscar({Id})"
+    df_read_sql = pd.read_sql(query, en)
+    print(df_read_sql)
 
-
+    return df_read_sql
 
 
 
 #tabla Item
-def Item_Add(Id, Name, Descr, Qnty, Qnty_min, fk_type, fk_pro, Status):
+def Item_Add(Name, Descr, Qnty, Qnty_min, fk_type, fk_pro, Status):
     pd, en, al, txt = start()
 
     with en.connect() as connection:
 
-        query = f"select producto.item_agregar({Id},'{Name}','{Descr}', {Qnty}, {Qnty_min},{fk_type},{fk_pro},'{Status}')"
+        query = f"select producto.item_agregar2('{Name}','{Descr}', {Qnty}, {Qnty_min},{fk_type},{fk_pro},'{Status}')"
         result = connection.execute(txt(query))
         connection.commit()
 
@@ -167,6 +185,14 @@ def Item_Delete(Id):
         result = connection.execute(txt(query))
         connection.commit()
 
+def Item_Search(Id):
+    pd, en, al, txt = start()
+
+    query=f"select producto.item_buscar({Id})"
+    df_read_sql = pd.read_sql(query, en)
+    print(df_read_sql)
+
+    return df_read_sql
 
 
 

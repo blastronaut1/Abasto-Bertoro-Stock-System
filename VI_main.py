@@ -48,6 +48,16 @@ class MyGui:
         self.listmenu.add_command(label="LISTAR productos/items", command=self.listItem)
         self.listmenu.add_separator()
 
+        self.searchmenu = tk.Menu(self.menubar, tearoff=0)
+        self.searchmenu.add_command(label="BUSCAR UN tipo de producto", command=self.searchType)
+        self.searchmenu.add_separator()
+        self.searchmenu.add_command(label="BUSCAR UN proveedor", command=self.searchProveer)
+        self.searchmenu.add_separator()
+        self.searchmenu.add_command(label="BUSCAR UN precio de producto", command=self.searchPrize)
+        self.searchmenu.add_separator()
+        self.searchmenu.add_command(label="BUSCAR UN producto/item", command=self.searchItem)
+        self.searchmenu.add_separator()
+
         self.deletemenu = tk.Menu(self.menubar, tearoff=0)
         self.deletemenu.add_command(label="BORRAR tipo de producto", command=self.delType)
         self.deletemenu.add_separator()
@@ -61,6 +71,7 @@ class MyGui:
         self.menubar.add_cascade(menu=self.addmenu,label="añadir Datos")
         self.menubar.add_cascade(menu=self.changemenu,label="Modificar Datos")
         self.menubar.add_cascade(menu=self.listmenu,label="Listar Datos")
+        self.menubar.add_cascade(menu=self.searchmenu,label="Buscar Datos")
         self.menubar.add_cascade(menu=self.deletemenu,label="Borrar Datos")
         self.root.config(menu=self.menubar)
 
@@ -72,6 +83,7 @@ class MyGui:
 
 
     #---------TIPO-------
+    #anadir tipo
     def addType(self):
 
         #titulo
@@ -86,17 +98,17 @@ class MyGui:
 
 
         #variables
-        self.Id = tk.IntVar()
+        #self.Id = tk.IntVar()
         self.Name = tk.StringVar()
         self.descr = tk.StringVar()
-        self.Img = tk.StringVar()
+        #self.Img = tk.StringVar()
         self.Status = tk.StringVar()
 
         #data
-        self.idLabel = tk.Label(self.crudWindow, text="ID del tipo")
-        self.idLabel.pack()
-        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
-        self.idEntry.pack(padx=7, pady=7)
+        #self.idLabel = tk.Label(self.crudWindow, text="ID del tipo")
+        #self.idLabel.pack()
+        #self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        #self.idEntry.pack(padx=7, pady=7)
 
         self.nameLabel = tk.Label(self.crudWindow, text="Nombre del tipo")
         self.nameLabel.pack()
@@ -108,10 +120,10 @@ class MyGui:
         self.descrEntry = tk.Entry(self.crudWindow, textvariable=self.descr)
         self.descrEntry.pack(padx=7, pady=7)
 
-        self.imgLabel = tk.Label(self.crudWindow, text="Imagen del tipo")
-        self.imgLabel.pack()
-        self.imgEntry = tk.Entry(self.crudWindow, textvariable=self.Img)
-        self.imgEntry.pack(padx=7, pady=7)
+        #self.imgLabel = tk.Label(self.crudWindow, text="Imagen del tipo")
+        #self.imgLabel.pack()
+        #self.imgEntry = tk.Entry(self.crudWindow, textvariable=self.Img)
+        #self.imgEntry.pack(padx=7, pady=7)
 
 
         label1 = tk.Label(self.crudWindow, text="Es esta categoria/tipo en uso?")
@@ -119,9 +131,10 @@ class MyGui:
         self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
         self.statusLabel.pack()
 
-        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitType(int(self.Id.get()),self.Name.get(),self.descr.get(),self.Img.get(),self.Status.get()))
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitType(self.Name.get(),self.descr.get(),self.Status.get()))
         self.confirm.pack(padx=7, pady=20)
 
+    #modificar tipo
     def modType(self):
         #titulo
         self.crudWindow = tk.Toplevel()
@@ -135,7 +148,7 @@ class MyGui:
 
 
         #variables
-        self.idOptions = STOCKSYSTEM.type_IdName()
+        #self.idOptions = STOCKSYSTEM.type_IdName()
         self.Id = tk.IntVar()
         self.Name = tk.StringVar()
         self.descr = tk.StringVar()
@@ -158,20 +171,20 @@ class MyGui:
         self.descrEntry = tk.Entry(self.crudWindow, textvariable=self.descr)
         self.descrEntry.pack(padx=7, pady=7)
 
-        self.imgLabel = tk.Label(self.crudWindow, text="nueva Imagen del tipo a cambiar")
-        self.imgLabel.pack()
-        self.imgEntry = tk.Entry(self.crudWindow, textvariable=self.Img)
-        self.imgEntry.pack(padx=7, pady=7)
-
+        #self.imgLabel = tk.Label(self.crudWindow, text="nueva Imagen del tipo a cambiar")
+        #self.imgLabel.pack()
+        #self.imgEntry = tk.Entry(self.crudWindow, textvariable=self.Img)
+        #self.imgEntry.pack(padx=7, pady=7)
 
         label1 = tk.Label(self.crudWindow, text="Es esta categoria/tipo en uso?")
         label1.pack()
         self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
         self.statusLabel.pack()
 
-        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitType2(int(self.Id.get()),self.Name.get(),self.descr.get(),self.Img.get(),self.Status.get()))
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitType2(int(self.Id.get()),self.Name.get(),self.descr.get(),self.Status.get()))
         self.confirm.pack(padx=7, pady=20)      
 
+    #listar tipo
     def listType(self):
         self.crudWindow = tk.Toplevel()
         self.crudWindow.resizable(width=False,height=False)
@@ -187,6 +200,39 @@ class MyGui:
         self.Output.pack()
         self.Output.insert(tk.END, self.list)
 
+    #buscar tipo
+    def searchType(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Buscar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Buscar Datos:\n Tipo de producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes buscar\n una categoria de producto en especifico\n(ejemplo: comida, limpieza, papeleria, etc)\n que desees!", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+        self.Id = tk.IntVar()
+
+        self.idLabel = tk.Label(self.crudWindow, text="ID del tipo a buscar")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable=self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.confirm = tk.Button(self.crudWindow,text="buscar Informacion en la base de datos", font=('Arial', 15),command=lambda:self.searchType2(int(self.Id.get())))
+        self.confirm.pack(padx=7, pady=20) 
+
+    def searchType2(self,r1):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("1000x600")
+        self.crudWindow.title("resultados de busqueda")
+        
+        self.list = STOCKSYSTEM.type_Search(r1)
+        self.Output = tk.Text(self.crudWindow, height = 75, width = 120, bg = "light cyan")
+        self.Output.pack()
+        self.Output.insert(tk.END, self.list)
+
+    #borrartipo
     def delType(self):
         self.crudWindow = tk.Toplevel()
         self.crudWindow.resizable(width=False,height=False)
@@ -223,7 +269,7 @@ class MyGui:
 
 
         #variables
-        self.Id = tk.IntVar()
+        #self.Id = tk.IntVar()
         self.Name = tk.StringVar()
         self.descr = tk.StringVar()
         self.Dir = tk.StringVar()
@@ -231,10 +277,10 @@ class MyGui:
         self.Status = tk.StringVar()
 
         #data
-        self.idLabel = tk.Label(self.crudWindow, text="ID del Proveedor")
-        self.idLabel.pack()
-        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
-        self.idEntry.pack(padx=7, pady=7)
+        #self.idLabel = tk.Label(self.crudWindow, text="ID del Proveedor")
+        #self.idLabel.pack()
+        #self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        #self.idEntry.pack(padx=7, pady=7)
 
         self.nameLabel = tk.Label(self.crudWindow, text="Nombre del Proveedor")
         self.nameLabel.pack()
@@ -262,7 +308,7 @@ class MyGui:
         self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
         self.statusLabel.pack()
 
-        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitProveer(int(self.Id.get()),self.Name.get(),self.descr.get(),self.Dir.get(),self.Telf.get(),self.Status.get()))
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitProveer(self.Name.get(),self.descr.get(),self.Dir.get(),self.Telf.get(),self.Status.get()))
         self.confirm.pack(padx=7, pady=20)
 
     def modProveer(self):
@@ -335,6 +381,38 @@ class MyGui:
         self.Output.pack()
         self.Output.insert(tk.END, self.list)
 
+    #buscar tipo
+    def searchProveer(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Buscar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Buscar Datos:\n proveedor", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes buscar\n un proveedor en especifico\n(ejemplo: comida, limpieza, papeleria, etc)\n que desees!", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+        self.Id = tk.IntVar()
+
+        self.idLabel = tk.Label(self.crudWindow, text="ID del proveedor a buscar")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable=self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.confirm = tk.Button(self.crudWindow,text="buscar Informacion en la base de datos", font=('Arial', 15),command=lambda:self.searchProveer2(int(self.Id.get())))
+        self.confirm.pack(padx=7, pady=20) 
+
+    def searchProveer2(self,r1):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("1000x600")
+        self.crudWindow.title("resultados de busqueda")
+        
+        self.list = STOCKSYSTEM.Proveer_Search(r1)
+        self.Output = tk.Text(self.crudWindow, height = 75, width = 120, bg = "light cyan")
+        self.Output.pack()
+        self.Output.insert(tk.END, self.list)
+
     def delProveer(self):
         self.crudWindow = tk.Toplevel()
         self.crudWindow.resizable(width=False,height=False)
@@ -375,7 +453,7 @@ class MyGui:
 
 
         #variables
-        self.Id = tk.IntVar()
+        #self.Id = tk.IntVar()
         self.fk_itm = tk.IntVar()
         self.fk_pro = tk.IntVar()
         self.pri_in = tk.DoubleVar()
@@ -383,10 +461,10 @@ class MyGui:
         self.Status = tk.StringVar()
 
         #data
-        self.idLabel = tk.Label(self.crudWindow, text="ID del registro del precio")
-        self.idLabel.pack()
-        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
-        self.idEntry.pack(padx=7, pady=7)
+        #self.idLabel = tk.Label(self.crudWindow, text="ID del registro del precio")
+        #self.idLabel.pack()
+        #self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        #self.idEntry.pack(padx=7, pady=7)
 
         self.fkitmLabel = tk.Label(self.crudWindow, text="a cual item le pertenece este registro?\n ingrese el Id")
         self.fkitmLabel.pack()
@@ -403,12 +481,17 @@ class MyGui:
         self.priinEntry = tk.Entry(self.crudWindow, textvariable= self.pri_in)
         self.priinEntry.pack(padx=7, pady=7)
 
+        self.prioutLabel = tk.Label(self.crudWindow, text="Ingrese el precio de venta del producto\n (a cuanto lo vas a vender?)")
+        self.prioutLabel.pack()
+        self.prioutEntry = tk.Entry(self.crudWindow, textvariable= self.pri_out)
+        self.prioutEntry.pack(padx=7, pady=7)
+
         label1 = tk.Label(self.crudWindow, text="Es este Registro de precio en uso?")
         label1.pack()
         self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
         self.statusLabel.pack()
 
-        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitPrize(int(self.Id.get()),int(self.fk_itm.get()),int(self.fk_pro.get()),float(self.pri_in.get()),float(self.pri_out.get()),self.Status.get()))
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitPrize(int(self.fk_itm.get()),int(self.fk_pro.get()),float(self.pri_in.get()),float(self.pri_out.get()),self.Status.get()))
         self.confirm.pack(padx=7, pady=20)
 
 
@@ -477,6 +560,39 @@ class MyGui:
         self.Output.pack()
         self.Output.insert(tk.END, self.list)
 
+    #buscar tipo
+    def searchPrize(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Buscar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Buscar Datos:\n precio", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes buscar\n una registro capital en especifico\n(ejemplo: comida, limpieza, papeleria, etc)\n que desees!", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+        self.Id = tk.IntVar()
+
+        self.idLabel = tk.Label(self.crudWindow, text="ID del registro capital")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable=self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.confirm = tk.Button(self.crudWindow,text="buscar Informacion en la base de datos", font=('Arial', 15),command=lambda:self.searchPrize2(int(self.Id.get())))
+        self.confirm.pack(padx=7, pady=20) 
+
+    def searchPrize2(self,r1):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("1000x600")
+        self.crudWindow.title("resultados de busqueda")
+        
+        self.list = STOCKSYSTEM.Price_Search(r1)
+        self.Output = tk.Text(self.crudWindow, height = 75, width = 120, bg = "light cyan")
+        self.Output.pack()
+        self.Output.insert(tk.END, self.list)
+
+
     def delPrize(self):
         self.crudWindow = tk.Toplevel()
         self.crudWindow.resizable(width=False,height=False)
@@ -513,7 +629,7 @@ class MyGui:
 
 
         #variables
-        self.Id = tk.IntVar()
+        #self.Id = tk.IntVar()
         self.Name = tk.StringVar()
         self.descr = tk.StringVar()
         self.Qnty = tk.IntVar()
@@ -523,10 +639,10 @@ class MyGui:
         self.Status = tk.StringVar()
 
         #data
-        self.idLabel = tk.Label(self.crudWindow, text="ID del Producto")
-        self.idLabel.pack()
-        self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
-        self.idEntry.pack(padx=7, pady=7)
+        #self.idLabel = tk.Label(self.crudWindow, text="ID del Producto")
+        #self.idLabel.pack()
+        #self.idEntry = tk.Entry(self.crudWindow, textvariable= self.Id)
+        #self.idEntry.pack(padx=7, pady=7)
 
         self.nameLabel = tk.Label(self.crudWindow, text="Nombre del Producto")
         self.nameLabel.pack()
@@ -563,7 +679,7 @@ class MyGui:
         self.statusLabel = tk.Checkbutton(self.crudWindow, text="chequea esto si ese es el caso", variable=self.Status, onvalue="A", offvalue="I")
         self.statusLabel.pack()
 
-        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitItem(int(self.Id.get()),self.Name.get(),self.descr.get(),int(self.Qnty.get()),int(self.Qnty_min.get()),int(self.fk_type.get()),int(self.fk_pro.get()),self.Status.get()))
+        self.confirm = tk.Button(self.crudWindow,text="enviar informacion a la base de datos", font=('Arial', 15),command=lambda:self.commitItem(self.Name.get(),self.descr.get(),int(self.Qnty.get()),int(self.Qnty_min.get()),int(self.fk_type.get()),int(self.fk_pro.get()),self.Status.get()))
         self.confirm.pack(padx=7, pady=20)
 
 
@@ -649,6 +765,38 @@ class MyGui:
         self.Output.pack()
         self.Output.insert(tk.END, self.list)
  
+    #buscar tipo
+    def searchItem(self):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("400x600")
+        self.crudWindow.title("Buscar Datos")
+        self.sb_titulo = tk.Label(self.crudWindow, text="Buscar Datos:\n Producto", font=('Arial', 15))
+        self.sb_titulo.pack(padx=20, pady=10)
+        self.sb_subtitulo = tk.Label(self.crudWindow, text="aca puedes buscar\n un producto en especifico\n(ejemplo: comida, limpieza, papeleria, etc)\n que desees!", font=('Arial', 11))
+        self.sb_subtitulo.pack(padx=20, pady=10)
+
+        self.Id = tk.IntVar()
+
+        self.idLabel = tk.Label(self.crudWindow, text="ID del producto a buscar")
+        self.idLabel.pack()
+        self.idEntry = tk.Entry(self.crudWindow, textvariable=self.Id)
+        self.idEntry.pack(padx=7, pady=7)
+
+        self.confirm = tk.Button(self.crudWindow,text="buscar Informacion en la base de datos", font=('Arial', 15),command=lambda:self.searchItem2(int(self.Id.get())))
+        self.confirm.pack(padx=7, pady=20) 
+
+    def searchItem2(self,r1):
+        self.crudWindow = tk.Toplevel()
+        self.crudWindow.resizable(width=False,height=False)
+        self.crudWindow.geometry("1000x600")
+        self.crudWindow.title("resultados de busqueda")
+        
+        self.list = STOCKSYSTEM.Item_Search(r1)
+        self.Output = tk.Text(self.crudWindow, height = 75, width = 120, bg = "light cyan")
+        self.Output.pack()
+        self.Output.insert(tk.END, self.list)
+
     def delItem(self):
         self.crudWindow = tk.Toplevel()
         self.crudWindow.resizable(width=False,height=False)
@@ -681,16 +829,16 @@ class MyGui:
 
 
     #--------COMITEO COMITEO TETETEO
-    def commitType(self,r1,r2,r3,r4,r5):
+    def commitType(self,r1,r2,r3):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
         if (answer==True):
-            STOCKSYSTEM.type_Add(r1, r2, r3, r4, r5)
+            STOCKSYSTEM.type_Add(r1, r2, r3)
             print("ocurrio")
 
-    def commitType2(self,r1,r2,r3,r4,r5):
+    def commitType2(self,r1,r2,r3,r4):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
         if (answer==True):
-            STOCKSYSTEM.type_Mod(r1, r2, r3, r4, r5)
+            STOCKSYSTEM.type_Mod(r1, r2, r3, r4)
             print("ocurrio")
 
     def commitType3(self,r1):
@@ -699,11 +847,10 @@ class MyGui:
             STOCKSYSTEM.type_Delete(r1)
             print("ocurrio")
 
-
-    def commitProveer(self,r1,r2,r3,r4,r5,r6):
+    def commitProveer(self,r1,r2,r3,r4,r5):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
         if (answer==True):
-            STOCKSYSTEM.Proveer_Add(r1, r2, r3, r4, r5, r6)
+            STOCKSYSTEM.Proveer_Add(r1, r2, r3, r4, r5)
             print("ocurrio")
 
     def commitProveer2(self,r1,r2,r3,r4,r5,r6):
@@ -719,10 +866,10 @@ class MyGui:
             print("ocurrio")
 
 
-    def commitPrize(self,r1,r2,r3,r4,r5,r6):
+    def commitPrize(self,r1,r2,r3,r4,r5):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
         if (answer==True):
-            STOCKSYSTEM.Price_Add(r1, r2, r3, r4, r5, r6)
+            STOCKSYSTEM.Price_Add(r1, r2, r3, r4, r5)
             print("ocurrio")
 
     def commitPrize2(self,r1,r2,r3,r4,r5,r6):
@@ -738,11 +885,10 @@ class MyGui:
             print("ocurrio")
 
 
-
-    def commitItem(self,r1,r2,r3,r4,r5,r6,r7,r8):
+    def commitItem(self,r1,r2,r3,r4,r5,r6,r7):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
         if (answer==True):
-            STOCKSYSTEM.Item_Add(r1, r2, r3, r4, r5, r6, r7, r8)
+            STOCKSYSTEM.Item_Add(r1, r2, r3, r4, r5, r6, r7)
             print("ocurrio")
 
     def commitItem2(self,r1,r2,r3,r4,r5,r6,r7,r8):
