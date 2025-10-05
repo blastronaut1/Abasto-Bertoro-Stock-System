@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 import VI_conexion_postgresql as STOCKSYSTEM
+import re
+
 class MyGui:
     def __init__(self):
         self.root = tk.Tk()
@@ -821,7 +823,29 @@ class MyGui:
     
 
 
-
+    #VALIDADOR
+    def validater(self,check1,check2):
+        match(check1):
+            case "text":
+                x = re.search("[0-9]", check2)
+                if (x == None):
+                    return True
+                else:
+                    return False
+            case "number":
+                x = re.search("[A-z]", check2)
+                if (x == None):
+                    return True
+                else:
+                    return False
+            case "telephone":
+                x = re.search("(\(?\+?\d{1,3}\)?[\s-]+)?\(?\d{1,3}\)?[\s-]+\d{3}[\s-]?\d{2}[\s-]?\d{2}", check2)
+                if (x == None):
+                    return False
+                else:
+                    return True
+            case _:
+                return True
 
 
 
@@ -831,75 +855,134 @@ class MyGui:
     #--------COMITEO COMITEO TETETEO
     def commitType(self,r1,r2,r3):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
-        if (answer==True):
+        x = self.validater('text',r1)
+        if (answer==True and x == True):
             STOCKSYSTEM.type_Add(r1, r2, r3)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
     def commitType2(self,r1,r2,r3,r4):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
-        if (answer==True):
+        x = self.validater('number',r1)
+        y = self.validater('text',r2)
+        if (answer==True and x==True and y==True):
             STOCKSYSTEM.type_Mod(r1, r2, r3, r4)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
+
 
     def commitType3(self,r1):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?\n Esta accion es permanente y muy delicada, proceder con cautela')
-        if (answer==True):
+        x = self.validater('number',r1)
+        if (answer==True and x==True):
             STOCKSYSTEM.type_Delete(r1)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
     def commitProveer(self,r1,r2,r3,r4,r5):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
-        if (answer==True):
+        x = self.validater('text', r1)
+        y = self.validater('telephone',r4)
+        if (answer==True and x==True and y==True):
             STOCKSYSTEM.Proveer_Add(r1, r2, r3, r4, r5)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
     def commitProveer2(self,r1,r2,r3,r4,r5,r6):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
-        if (answer==True):
+        x = self.validater('text', r2)
+        y = self.validater('telephone',r5)
+        z = self.validater('number', r1)
+        if (answer==True and x==True and y==True and z==True):
             STOCKSYSTEM.Proveer_Mod(r1, r2, r3, r4, r5, r6)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
     def commitProveer3(self,r1):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?\n Esta accion es permanente y muy delicada, proceder con cautela')
-        if (answer==True):
+        x = self.validater('number',r1)
+        if (answer==True and x==True):
             STOCKSYSTEM.Proveer_Delete(r1)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
 
     def commitPrize(self,r1,r2,r3,r4,r5):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
-        if (answer==True):
+        x1 = self.validater('number',r1)
+        x2 = self.validater('number',r2)
+        x3 = self.validater('number',r3)
+        x4 = self.validater('number',r4)
+        if (answer==True and x1==True and x2==True and x3==True and x4==True):
             STOCKSYSTEM.Price_Add(r1, r2, r3, r4, r5)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
     def commitPrize2(self,r1,r2,r3,r4,r5,r6):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
-        if (answer==True):
+        x1 = self.validater('number',r1)
+        x2 = self.validater('number',r2)
+        x3 = self.validater('number',r3)
+        x4 = self.validater('number',r4)
+        x5 = self.validater('number',r5)
+        if (answer==True and x1==True and x2==True and x3==True and x4==True and x5==True):
             STOCKSYSTEM.Price_Mod(r1, r2, r3, r4, r5, r6)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
     def commitPrize3(self,r1):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?\n Esta accion es permanente y muy delicada, proceder con cautela')
-        if (answer==True):
+        x = self.validater('number',r1)
+        if (answer==True and x==True):
             STOCKSYSTEM.Price_Delete(r1)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
 
     def commitItem(self,r1,r2,r3,r4,r5,r6,r7):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
-        if (answer==True):
+        x1 = self.validater('text',r1)
+        x2 = self.validater('number',r3)
+        x3 = self.validater('number',r4)
+        x4 = self.validater('number',r5)
+        x5 = self.validater('number',r6)
+        if (answer==True and x1==True and x2==True and x3==True and x4==True and x5==True):
             STOCKSYSTEM.Item_Add(r1, r2, r3, r4, r5, r6, r7)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
     def commitItem2(self,r1,r2,r3,r4,r5,r6,r7,r8):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?')
-        if (answer==True):
+        x1 = self.validater('text',r2)
+        x2 = self.validater('number',r4)
+        x3 = self.validater('number',r5)
+        x4 = self.validater('number',r6)
+        x5 = self.validater('number',r7)
+        x6 = self.validater('number',r1)
+        
+        if (answer==True and x1==True and x2==True and x3==True and x4==True and x5==True and x6==True):
             STOCKSYSTEM.Item_Mod(r1, r2, r3, r4, r5, r6,r7,r8)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
 
     def commitItem3(self,r1):
         answer = messagebox.askyesno('confirmacion','estas seguro de hacer estos cambios a la base de datos?\n Esta accion es permanente y muy delicada, proceder con cautela')
-        if (answer==True):
+        x = self.validater('number',r1)
+        if (answer==True and x==True):
             STOCKSYSTEM.Item_Delete(r1)
             print("ocurrio")
+        else:
+            messagebox.showinfo('data invalida','alguna informacion que enviastes es invalida, mal formateada o vacia, por favor, revise')
+
 MyGui()
